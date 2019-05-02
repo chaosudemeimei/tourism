@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.juzheng.smart.tourism.mapper.NotesPlanInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.juzheng.smart.tourism.entity.NotesPlanInfo" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="plan_id" property="planId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="begintime" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="population" property="population" jdbcType="VARCHAR" />
+    <result column="budget" property="budget" jdbcType="VARCHAR" />
+    <result column="notes_keywords" property="notesKeywords" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, plan_id, user_id, city_id, createtime, begintime, endtime, population, budget, 
+    notes_keywords
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.juzheng.smart.tourism.entity.NotesPlanInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from notes_plan_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.juzheng.smart.tourism.entity.NotesPlanInfoExample" >
+    delete from notes_plan_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert1" parameterType="com.juzheng.smart.tourism.entity.NotesPlanInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into notes_plan_info (plan_id, user_id, city_id, 
+      createtime, begintime, endtime, 
+      population, budget, notes_keywords
+      )
+    values (#{planId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{population,jdbcType=VARCHAR}, #{budget,jdbcType=VARCHAR}, #{notesKeywords,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.juzheng.smart.tourism.entity.NotesPlanInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into notes_plan_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        plan_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="begintime != null" >
+        begintime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="population != null" >
+        population,
+      </if>
+      <if test="budget != null" >
+        budget,
+      </if>
+      <if test="notesKeywords != null" >
+        notes_keywords,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        #{planId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begintime != null" >
+        #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="population != null" >
+        #{population,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null" >
+        #{budget,jdbcType=VARCHAR},
+      </if>
+      <if test="notesKeywords != null" >
+        #{notesKeywords,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.juzheng.smart.tourism.entity.NotesPlanInfoExample" resultType="java.lang.Integer" >
+    select count(*) from notes_plan_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update notes_plan_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.planId != null" >
+        plan_id = #{record.planId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.begintime != null" >
+        begintime = #{record.begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null" >
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.population != null" >
+        population = #{record.population,jdbcType=VARCHAR},
+      </if>
+      <if test="record.budget != null" >
+        budget = #{record.budget,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notesKeywords != null" >
+        notes_keywords = #{record.notesKeywords,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update notes_plan_info
+    set id = #{record.id,jdbcType=INTEGER},
+      plan_id = #{record.planId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      begintime = #{record.begintime,jdbcType=TIMESTAMP},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      population = #{record.population,jdbcType=VARCHAR},
+      budget = #{record.budget,jdbcType=VARCHAR},
+      notes_keywords = #{record.notesKeywords,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

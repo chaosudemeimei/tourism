@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.juzheng.smart.tourism.mapper.CityPlayMapper" >
+  <resultMap id="BaseResultMap" type="com.juzheng.smart.tourism.entity.CityPlay" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="play_id" property="playId" jdbcType="INTEGER" />
+    <result column="play_name" property="playName" jdbcType="VARCHAR" />
+    <result column="play_address" property="playAddress" jdbcType="VARCHAR" />
+    <result column="play_price" property="playPrice" jdbcType="DECIMAL" />
+    <result column="play_keywords" property="playKeywords" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, play_id, play_name, play_address, play_price, play_keywords
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.juzheng.smart.tourism.entity.CityPlayExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from city_play
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.juzheng.smart.tourism.entity.CityPlayExample" >
+    delete from city_play
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert1" parameterType="com.juzheng.smart.tourism.entity.CityPlay" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into city_play (play_id, play_name, play_address, 
+      play_price, play_keywords)
+    values (#{playId,jdbcType=INTEGER}, #{playName,jdbcType=VARCHAR}, #{playAddress,jdbcType=VARCHAR}, 
+      #{playPrice,jdbcType=DECIMAL}, #{playKeywords,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.juzheng.smart.tourism.entity.CityPlay" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into city_play
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="playId != null" >
+        play_id,
+      </if>
+      <if test="playName != null" >
+        play_name,
+      </if>
+      <if test="playAddress != null" >
+        play_address,
+      </if>
+      <if test="playPrice != null" >
+        play_price,
+      </if>
+      <if test="playKeywords != null" >
+        play_keywords,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="playId != null" >
+        #{playId,jdbcType=INTEGER},
+      </if>
+      <if test="playName != null" >
+        #{playName,jdbcType=VARCHAR},
+      </if>
+      <if test="playAddress != null" >
+        #{playAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="playPrice != null" >
+        #{playPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="playKeywords != null" >
+        #{playKeywords,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.juzheng.smart.tourism.entity.CityPlayExample" resultType="java.lang.Integer" >
+    select count(*) from city_play
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update city_play
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.playId != null" >
+        play_id = #{record.playId,jdbcType=INTEGER},
+      </if>
+      <if test="record.playName != null" >
+        play_name = #{record.playName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playAddress != null" >
+        play_address = #{record.playAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playPrice != null" >
+        play_price = #{record.playPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.playKeywords != null" >
+        play_keywords = #{record.playKeywords,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update city_play
+    set id = #{record.id,jdbcType=INTEGER},
+      play_id = #{record.playId,jdbcType=INTEGER},
+      play_name = #{record.playName,jdbcType=VARCHAR},
+      play_address = #{record.playAddress,jdbcType=VARCHAR},
+      play_price = #{record.playPrice,jdbcType=DECIMAL},
+      play_keywords = #{record.playKeywords,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

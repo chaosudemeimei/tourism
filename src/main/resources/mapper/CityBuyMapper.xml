@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.juzheng.smart.tourism.mapper.CityBuyMapper" >
+  <resultMap id="BaseResultMap" type="com.juzheng.smart.tourism.entity.CityBuy" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="buy_id" property="buyId" jdbcType="INTEGER" />
+    <result column="buy_name" property="buyName" jdbcType="VARCHAR" />
+    <result column="buy_address" property="buyAddress" jdbcType="VARCHAR" />
+    <result column="buy_keywords" property="buyKeywords" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, buy_id, buy_name, buy_address, buy_keywords
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.juzheng.smart.tourism.entity.CityBuyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from city_buy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.juzheng.smart.tourism.entity.CityBuyExample" >
+    delete from city_buy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert1" parameterType="com.juzheng.smart.tourism.entity.CityBuy" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into city_buy (buy_id, buy_name, buy_address, 
+      buy_keywords)
+    values (#{buyId,jdbcType=INTEGER}, #{buyName,jdbcType=VARCHAR}, #{buyAddress,jdbcType=VARCHAR}, 
+      #{buyKeywords,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.juzheng.smart.tourism.entity.CityBuy" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into city_buy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="buyId != null" >
+        buy_id,
+      </if>
+      <if test="buyName != null" >
+        buy_name,
+      </if>
+      <if test="buyAddress != null" >
+        buy_address,
+      </if>
+      <if test="buyKeywords != null" >
+        buy_keywords,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="buyId != null" >
+        #{buyId,jdbcType=INTEGER},
+      </if>
+      <if test="buyName != null" >
+        #{buyName,jdbcType=VARCHAR},
+      </if>
+      <if test="buyAddress != null" >
+        #{buyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="buyKeywords != null" >
+        #{buyKeywords,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.juzheng.smart.tourism.entity.CityBuyExample" resultType="java.lang.Integer" >
+    select count(*) from city_buy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update city_buy
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyId != null" >
+        buy_id = #{record.buyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyName != null" >
+        buy_name = #{record.buyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyAddress != null" >
+        buy_address = #{record.buyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyKeywords != null" >
+        buy_keywords = #{record.buyKeywords,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update city_buy
+    set id = #{record.id,jdbcType=INTEGER},
+      buy_id = #{record.buyId,jdbcType=INTEGER},
+      buy_name = #{record.buyName,jdbcType=VARCHAR},
+      buy_address = #{record.buyAddress,jdbcType=VARCHAR},
+      buy_keywords = #{record.buyKeywords,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
