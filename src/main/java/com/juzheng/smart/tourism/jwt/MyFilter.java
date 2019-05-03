@@ -18,8 +18,10 @@ public class MyFilter implements Filter {
 
         HttpServletRequest request =(HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse)servletResponse;
-        String token = request.getHeader("authorization"); //获取请求传来的token
+        //String token = request.getHeader("authorization"); //获取请求传来的token
+        String token=request.getHeader("token");
         Claims claims = JwtHelper.verifyJwt(token); //验证token
+      //  System.out.println(claims);
         if (claims == null) {  
             response.getWriter().write("token is invalid");
         }else {

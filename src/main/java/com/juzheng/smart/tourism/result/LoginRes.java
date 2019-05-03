@@ -12,7 +12,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class LoginRes {
-    String user_data;
-    String password;
+    String user_data1;
+    String user_data2;
 
 }

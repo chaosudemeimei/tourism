@@ -12,7 +12,7 @@ public class BeanRegisterConfig {
         //过滤器注册类
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new MyFilter());
-        registration.addUrlPatterns("/user-info/user_info/*"); //需要过滤的接口
+        registration.addUrlPatterns("/user-info/api/user_info/*"); //需要过滤的接口
         return registration;
     }
 }
