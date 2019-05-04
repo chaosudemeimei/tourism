@@ -26,13 +26,15 @@ public class CityBuy extends Model<CityBuy> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer buyId;
+    private String  buyId;
 
     private String buyName;
 
     private String buyAddress;
 
     private String buyKeywords;
+
+    private String cityId;
 
 
     @Override

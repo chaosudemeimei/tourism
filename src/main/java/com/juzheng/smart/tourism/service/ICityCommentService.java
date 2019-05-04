@@ -1,6 +1,6 @@
 package com.juzheng.smart.tourism.service;
 
-import com.juzheng.smart.tourism.entity.CityMarket;
+import com.juzheng.smart.tourism.entity.CityComment;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author juzheng
- * @since 2019-04-26
+ * @since 2019-05-04
  */
-public interface ICityMarketService extends IService<CityMarket> {
+public interface ICityCommentService extends IService<CityComment> {
 
 }

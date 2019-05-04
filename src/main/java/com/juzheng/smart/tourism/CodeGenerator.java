@@ -122,10 +122,10 @@ public class CodeGenerator {
         // templateConfig.setController();
 
         //templateConfig.setXml(null);
-        templateConfig
-                .setXml(null)
-                .setController(null)
-                .setMapper(null);
+       // templateConfig
+                //.setXml(null)
+                //.setController(null)
+                //.setMapper(null);
               //  .setService(null)
               // .setServiceImpl(null);
         mpg.setTemplate(templateConfig);
@@ -139,7 +139,8 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         // strategy.setSuperControllerClass("com.baomidou.ant.common.BaseController");
         //strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
-        String tables="city,city_buy,city_del,city_eat,city_heat,city_market,city_play,city_weather,country,key_words,notes_info,notes_keywords,notes_plan_info,province,user_dest,user_info,user_keywords";
+       // String tables="city,city_buy,city_del,city_eat,city_heat,city_market,city_play,city_weather,country,key_words,notes_info,notes_keywords,notes_plan_info,province,user_dest,user_info,user_keywords";
+        String tables="city_comment";
         strategy.setInclude(tables.split(","));
         //  strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);

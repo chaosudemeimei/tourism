@@ -27,7 +27,7 @@ public class CityPlay extends Model<CityPlay> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer playId;
+    private String playId;
 
     private String playName;
 
@@ -36,6 +36,8 @@ public class CityPlay extends Model<CityPlay> {
     private BigDecimal playPrice;
 
     private String playKeywords;
+
+    private String cityId;
 
 
     @Override

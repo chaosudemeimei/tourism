@@ -5,7 +5,9 @@ import com.juzheng.smart.tourism.entity.NotesPlanInfo;
 import com.juzheng.smart.tourism.entity.NotesPlanInfoExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface NotesPlanInfoMapper extends BaseMapper<NotesPlanInfo> {
     int countByExample(NotesPlanInfoExample example);
 

@@ -5,7 +5,9 @@ import com.juzheng.smart.tourism.entity.CityWeather;
 import com.juzheng.smart.tourism.entity.CityWeatherExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CityWeatherMapper extends BaseMapper<CityWeather> {
     int countByExample(CityWeatherExample example);
 

@@ -5,7 +5,9 @@ import com.juzheng.smart.tourism.entity.NotesKeywords;
 import com.juzheng.smart.tourism.entity.NotesKeywordsExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface NotesKeywordsMapper extends BaseMapper<NotesKeywords> {
     int countByExample(NotesKeywordsExample example);
 

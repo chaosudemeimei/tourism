@@ -5,7 +5,9 @@ import com.juzheng.smart.tourism.entity.City;
 import com.juzheng.smart.tourism.entity.CityExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CityMapper extends BaseMapper<City> {
     int countByExample(CityExample example);
 

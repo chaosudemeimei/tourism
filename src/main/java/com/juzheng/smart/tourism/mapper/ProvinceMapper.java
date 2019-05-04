@@ -5,7 +5,9 @@ import com.juzheng.smart.tourism.entity.Province;
 import com.juzheng.smart.tourism.entity.ProvinceExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ProvinceMapper extends BaseMapper<Province> {
     int countByExample(ProvinceExample example);
 

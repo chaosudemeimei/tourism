@@ -1,8 +1,6 @@
 package com.juzheng.smart.tourism.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,25 +12,22 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author juzheng
- * @since 2019-04-26
+ * @since 2019-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-//@Accessors(chain = true)
-public class CityDel extends Model<CityDel> {
+@Accessors(chain = true)
+public class CityComment extends Model<CityComment> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer cityId;
+    private String commentId;
 
-    private Integer weatherId;
+    private String commentScore;
 
-    private Integer heatId;
-
-    private Integer marketId;
+    private String commentContent;
 
 
     @Override

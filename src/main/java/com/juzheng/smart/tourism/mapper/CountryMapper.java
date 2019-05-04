@@ -5,7 +5,9 @@ import com.juzheng.smart.tourism.entity.Country;
 import com.juzheng.smart.tourism.entity.CountryExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CountryMapper extends BaseMapper<Country> {
     int countByExample(CountryExample example);
 
