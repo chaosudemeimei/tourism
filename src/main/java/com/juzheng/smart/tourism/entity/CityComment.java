@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
+//@Accessors(chain = true)
 public class CityComment extends Model<CityComment> {
 
     private static final long serialVersionUID = 1L;
@@ -28,6 +28,8 @@ public class CityComment extends Model<CityComment> {
     private String commentScore;
 
     private String commentContent;
+
+    private String cityId;
 
 
     @Override

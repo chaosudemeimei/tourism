@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author juzheng
- * @since 2019-04-26
+ * @since 2019-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,9 +26,11 @@ public class CityHeat extends Model<CityHeat> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer heatId;
+    private String heatId;
 
-    private Integer rank;
+    private String heatCount;
+
+    private String cityId;
 
 
     @Override

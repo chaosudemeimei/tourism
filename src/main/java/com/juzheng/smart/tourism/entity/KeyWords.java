@@ -26,7 +26,7 @@ public class KeyWords extends Model<KeyWords> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer keywordId;
+    private String keywordId;
 
     private String content;
 

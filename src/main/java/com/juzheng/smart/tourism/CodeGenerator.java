@@ -88,7 +88,7 @@ public class CodeGenerator {
         // String templatePath = "/templates/mapper.xml.vm";
 
         // 自定义输出配置
-/*        List<FileOutConfig> focList = new ArrayList<>();
+       List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
         focList.add(new FileOutConfig(templatePath) {
             @Override
@@ -98,7 +98,7 @@ public class CodeGenerator {
                 return projectPath + "/src/main/resources/mapper/"
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
-        });*/
+        });
         /*
         cfg.setFileCreate(new IFileCreate() {
             @Override
@@ -122,12 +122,12 @@ public class CodeGenerator {
         // templateConfig.setController();
 
         //templateConfig.setXml(null);
-       // templateConfig
-                //.setXml(null)
-                //.setController(null)
-                //.setMapper(null);
-              //  .setService(null)
-              // .setServiceImpl(null);
+        templateConfig
+                .setXml(null)
+                .setController(null)
+                .setMapper(null)
+                .setService(null)
+               .setServiceImpl(null);
         mpg.setTemplate(templateConfig);
 
         // 策略配置
@@ -136,14 +136,14 @@ public class CodeGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         //strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
         strategy.setEntityLombokModel(true);
-        strategy.setRestControllerStyle(true);
+    //    strategy.setRestControllerStyle(true);
         // strategy.setSuperControllerClass("com.baomidou.ant.common.BaseController");
         //strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
        // String tables="city,city_buy,city_del,city_eat,city_heat,city_market,city_play,city_weather,country,key_words,notes_info,notes_keywords,notes_plan_info,province,user_dest,user_info,user_keywords";
-        String tables="city_comment";
+        String tables="city_heat";
         strategy.setInclude(tables.split(","));
         //  strategy.setSuperEntityColumns("id");
-        strategy.setControllerMappingHyphenStyle(true);
+       // strategy.setControllerMappingHyphenStyle(true);
         // strategy.setTablePrefix(pc.getModuleName() + "_");
        // strategy.setEntityLombokModel(true);
         mpg.setStrategy(strategy);

@@ -27,11 +27,11 @@ public class NotesPlanInfo extends Model<NotesPlanInfo> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer planId;
+    private String planId;
 
-    private Integer userId;
+    private String userId;
 
-    private Integer cityId;
+    private String cityId;
 
     private LocalDateTime createtime;
 
@@ -43,7 +43,7 @@ public class NotesPlanInfo extends Model<NotesPlanInfo> {
 
     private String budget;
 
-    private Integer notesKeywords;
+    private String notesKeywords;
 
 
     @Override

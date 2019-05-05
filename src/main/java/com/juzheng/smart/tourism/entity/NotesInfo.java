@@ -27,17 +27,15 @@ public class NotesInfo extends Model<NotesInfo> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer userId;
+    private String userId;
 
-    private Integer cityId;
+    private String cityId;
 
     private String title;
 
     private String content;
 
     private LocalDateTime creatime;
-
-    private Integer notesKeywords;
 
 
     @Override

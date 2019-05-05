@@ -1,20 +1,16 @@
 package com.juzheng.smart.tourism.controller;
 
-
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
  * @author juzheng
- * @since 2019-04-19
+ * @Title: CityCommentController
+ * @date 2019/5/4 3:50 PM
+ * @Description:
  */
-@RestController
-@RequestMapping("/city-weather")
-public class CityWeatherController {
 
+@RestController
+@RequestMapping("/city-comment")
+public class CityCommentController {
 }

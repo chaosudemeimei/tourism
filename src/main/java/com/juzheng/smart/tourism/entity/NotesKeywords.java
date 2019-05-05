@@ -26,9 +26,9 @@ public class NotesKeywords extends Model<NotesKeywords> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer noteId;
+    private String noteId;
 
-    private Integer keywordId;
+    private String keywordId;
 
 
     @Override

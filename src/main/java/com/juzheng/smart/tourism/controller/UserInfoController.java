@@ -45,7 +45,7 @@ import static com.juzheng.smart.tourism.util.SmsUtils.sendSms;
  */
 @RestController
 @RequestMapping("/user-info")
-@CrossOrigin
+//@CrossOrigin(allowCredentials="true",maxAge = 3600)
 public class UserInfoController {
     @Autowired
     private IUserInfoService userInfoService;
@@ -137,10 +137,10 @@ public class UserInfoController {
     @RequestMapping(value = "/api/login1",method = { RequestMethod.POST})
     public LoginResult loginRequest(@RequestBody LoginRes loginRes){
         LoginResult loginResult = new LoginResult();
+        System.out.println(loginRes);
         try {
-            Gson gson = new Gson();
-           String  user_data=loginRes.getUser_data1();
-           String password=loginRes.getUser_data2();
+            String user_data=loginRes.getUser_data1();
+            String password=loginRes.getUser_data2();
             QueryWrapper<UserInfo> queryWrapper1 = new QueryWrapper<>();
             QueryWrapper<UserInfo> queryWrapper2 = new QueryWrapper<>();
             QueryWrapper<UserInfo> queryWrapper3 = new QueryWrapper<>();
