@@ -137,7 +137,7 @@ public class UserInfoController {
     @RequestMapping(value = "/api/login1",method = { RequestMethod.POST})
     public LoginResult loginRequest(@RequestBody LoginRes loginRes){
         LoginResult loginResult = new LoginResult();
-        System.out.println(loginRes);
+       // System.out.println(loginRes);
         try {
             String user_data=loginRes.getUser_data1();
             String password=loginRes.getUser_data2();
@@ -219,7 +219,7 @@ public class UserInfoController {
                 response.addCookie(cookie);
                 // System.out.println(response.getHeaders("set-cookie"));
                 loginResult.setResult(jwtToken);
-                loginResult.setMessage("验证码正确，登录成功");
+                loginResult.setMessage(userInfo.getUserId());
                 loginResult.setStatus("200");
             }
             else {//若不存在自动注册
@@ -228,7 +228,7 @@ public class UserInfoController {
                 userInfo2.setUserId(IdGenerator.createUserCode());
                 userInfo2.setPhoneNumber(user_data1);
                 userInfoService.save(userInfo2);//存入
-                String jwtToken = JwtHelper.generateToken(userInfo.getUserId());
+                String jwtToken = JwtHelper.generateToken(userInfo2.getUserId());
 
                 ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
                 HttpServletResponse response = servletRequestAttributes.getResponse();
@@ -248,6 +248,7 @@ public class UserInfoController {
             loginResult.setMessage("登录失败");
             loginResult.setStatus("400");
         }
+        //System.out.println(loginResult.getResult());
         return loginResult;
     }
     @ApiOperation(value="用户注册方法一：通过用户名注册", notes="通过用户名username注册")
@@ -342,22 +343,12 @@ public class UserInfoController {
         return baseResult;
     }
 
-    @ApiOperation(value="根据cookie中的token获取用户信息", notes="token需要解析")
+    @ApiOperation(value="根据token获取用户信息", notes="token需要解析")
     @RequestMapping(value = "/api/user_info/token", method = RequestMethod.GET)
-    public BaseResult<UserInfo> cookieUser() {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+    public BaseResult<UserInfo> findUser() {
+       ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest request= servletRequestAttributes.getRequest();
-        Cookie[] cookies = request.getCookies();
-        String jwttoken = "";
-        for (Cookie cookie : cookies) {
-            switch(cookie.getName()){
-                case "token":
-                    jwttoken = cookie.getValue();
-                    break;
-                default:
-                    break;
-            }
-        }
+        String jwttoken=request.getHeader("token");
         Claims claims=JwtHelper.verifyJwt(jwttoken);
         String userid = String.valueOf(claims.get("userid"));
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
@@ -380,18 +371,30 @@ public class UserInfoController {
 
     @ApiOperation(value="修改用户信息", notes="token需要解析")
     @RequestMapping(value = "/api/user_info", method = RequestMethod.PUT)
-    public BaseResult<UserInfo> cookieUserupdate(@RequestBody UserInfo userInfo) {
+    public BaseResult<UserInfo> Userupdate(@RequestBody UserInfo userInfo) {
         BaseResult baseResult=new BaseResult();
         if(userInfo!=null){
-            userInfoService.saveOrUpdate(userInfo);//此处前端需要设置手机号不可更改
+            QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_id",userInfo.getUserId());
+     /*       UserInfo userInfo2=userInfoService.getOne(queryWrapper);
+            userInfo2.setUsername(userInfo.getUsername());
+            userInfo2.setPhoneNumber(userInfo.getPhoneNumber());
+            userInfo2.setEmail(userInfo.getEmail());
+            userInfo2.setSex(userInfo.getSex());
+            userInfo2.setBirthday(userInfo.getBirthday());
+            userInfo2.setRegisterTime(userInfo.getRegisterTime());
+            userInfo2.setRealname(userInfo.getRealname());
+            userInfo2.setRemark(userInfo.getRemark());
+            userInfoService.saveOrUpdate(userInfo2);*/
+            userInfo.updateById();
             baseResult.setResult(userInfo);
-            baseResult.setStatus("200");//注册成功返回200
-            baseResult.setMessage("查询成功");
+            baseResult.setStatus("200");
+            baseResult.setMessage("修改成功");
             return baseResult;
         }
         else {
             baseResult.setResult(userInfo);
-            baseResult.setStatus("400");//注册成功返回200
+            baseResult.setStatus("400");
             baseResult.setMessage("查询失败");
             return baseResult;
         }
