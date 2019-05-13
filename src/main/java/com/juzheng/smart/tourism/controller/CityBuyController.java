@@ -11,16 +11,16 @@ import com.juzheng.smart.tourism.service.ICityBuyService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -37,9 +37,9 @@ public class CityBuyController {
     private ICityBuyService cityBuyService;
 
     @ApiOperation(value="根据city_id获得city_buy", notes="token需要解析")
-    @RequestMapping(value = "/api/city_buy/token/", method = RequestMethod.GET)
-    public BaseResult<CityBuy> get_Citybuy_by_Cityid() {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+    @RequestMapping(value = "/api/city_buy/{cityid}", method = RequestMethod.GET)
+    public BaseResult<List<CityBuy>> get_Citybuy_by_Cityid(@PathVariable("cityid") String cityid) {
+       /* ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest request= servletRequestAttributes.getRequest();
         Cookie[] cookies = request.getCookies();
         String cityid = "";
@@ -51,18 +51,21 @@ public class CityBuyController {
                 default:
                     break;
             }
-        }
+        }*/
         QueryWrapper<CityBuy> cityBuyQueryWrapper=new QueryWrapper<>();
         cityBuyQueryWrapper.lambda().eq(CityBuy::getCityId,cityid);
-        CityBuy cityBuy=cityBuyService.getOne(cityBuyQueryWrapper);
+       // CityBuy cityBuy=cityBuyService.getOne(cityBuyQueryWrapper);
+        List<CityBuy> cityBuy=cityBuyService.list(cityBuyQueryWrapper);
         BaseResult baseResult=new BaseResult();
         if (cityBuy!=null){
+           // System.out.println(cityBuy);
+            System.out.println(cityid);
             baseResult.setResult(cityBuy);
             baseResult.setStatus("200");
             baseResult.setMessage("查询成功");
         }
         else {
-            baseResult.setResult(cityBuy);
+            baseResult.setResult(null);
             baseResult.setStatus("400");
             baseResult.setMessage("查询失败");
         }

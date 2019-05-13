@@ -34,6 +34,8 @@ public class CityBuy extends Model<CityBuy> {
 
     private String buyKeywords;
 
+    private String buyImg;
+
     private String cityId;
 
 

@@ -37,6 +37,8 @@ public class CityPlay extends Model<CityPlay> {
 
     private String playKeywords;
 
+    private String playImg;
+
     private String cityId;
 
 

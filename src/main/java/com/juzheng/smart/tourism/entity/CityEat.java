@@ -37,6 +37,8 @@ public class CityEat extends Model<CityEat> {
 
     private String eatKeywords;
 
+    private String eatImg;
+
     private String cityId;
 
 

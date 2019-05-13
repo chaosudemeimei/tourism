@@ -39,7 +39,7 @@ public class UserInfo extends Model<UserInfo> {
 
     private Integer sex;
 
-    private LocalDateTime birthday;
+    private String birthday;
 
     private LocalDateTime registerTime;
 

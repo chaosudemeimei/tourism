@@ -2,6 +2,7 @@ package com.juzheng.smart.tourism.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.juzheng.smart.tourism.entity.CityBuy;
 import com.juzheng.smart.tourism.entity.CityEat;
 import com.juzheng.smart.tourism.entity.CityPlay;
 import com.juzheng.smart.tourism.mapper.CityEatMapper;
@@ -11,6 +12,7 @@ import com.juzheng.smart.tourism.service.ICityEatService;
 import com.juzheng.smart.tourism.service.ICityPlayService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -37,10 +40,10 @@ public class CityPlayController {
     @Autowired
     private ICityPlayService cityPlayService;
 
-    @ApiOperation(value="根据city_id获得city_plyu", notes="token需要解析")
-    @RequestMapping(value = "/api/city_play/token/", method = RequestMethod.GET)
-    public BaseResult<CityPlay> get_Cityplay_by_Cityid() {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+    @ApiOperation(value="根据city_id获得city_play", notes="token需要解析")
+    @RequestMapping(value = "/api/city_play/{cityid}", method = RequestMethod.GET)
+    public BaseResult<List<CityBuy>> get_Citybuy_by_Cityid(@PathVariable("cityid") String cityid) {
+       /* ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest request= servletRequestAttributes.getRequest();
         Cookie[] cookies = request.getCookies();
         String cityid = "";
@@ -52,18 +55,19 @@ public class CityPlayController {
                 default:
                     break;
             }
-        }
+        }*/
         QueryWrapper<CityPlay> cityPlayQueryWrapper=new QueryWrapper<>();
         cityPlayQueryWrapper.lambda().eq(CityPlay::getCityId,cityid);
-        CityPlay cityPlay=cityPlayService.getOne(cityPlayQueryWrapper);
+        // CityBuy cityBuy=cityBuyService.getOne(cityBuyQueryWrapper);
+        List<CityPlay> cityPlays=cityPlayService.list(cityPlayQueryWrapper);
         BaseResult baseResult=new BaseResult();
-        if (cityPlay!=null){
-            baseResult.setResult(cityPlay);
+        if (cityPlays!=null){
+            baseResult.setResult(cityPlays);
             baseResult.setStatus("200");
             baseResult.setMessage("查询成功");
         }
         else {
-            baseResult.setResult(cityPlay);
+            baseResult.setResult(null);
             baseResult.setStatus("400");
             baseResult.setMessage("查询失败");
         }
