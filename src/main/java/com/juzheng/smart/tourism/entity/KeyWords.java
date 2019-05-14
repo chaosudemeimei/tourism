@@ -30,8 +30,6 @@ public class KeyWords extends Model<KeyWords> {
 
     private String content;
 
-    private Integer frequency;
-
 
     @Override
     protected Serializable pkVal() {

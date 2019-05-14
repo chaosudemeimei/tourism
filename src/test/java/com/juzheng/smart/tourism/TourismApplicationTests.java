@@ -1,6 +1,7 @@
 package com.juzheng.smart.tourism;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.juzheng.smart.tourism.entity.UserInfo;
 import com.juzheng.smart.tourism.mapper.UserInfoMapper;
@@ -40,8 +41,10 @@ public class TourismApplicationTests {
 
     }
 
+
     //测试城市的实时天气预报
-    public static void main(String[] args) {
+    @Test
+    public void weather2() {
         String host = "http://saweather.market.alicloudapi.com";
         String path = "/hour24";
         String method = "GET";
@@ -74,6 +77,7 @@ public class TourismApplicationTests {
             e.printStackTrace();
         }
     }
+
 
 
 
