@@ -27,11 +27,6 @@ public class City extends Model<City> {
 
     private String cityId;
 
-    private String provinceId;
-
-
-
-
     @Override
     protected Serializable pkVal() {
         return this.id;

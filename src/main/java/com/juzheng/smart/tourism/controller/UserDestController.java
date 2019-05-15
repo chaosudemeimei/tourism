@@ -44,25 +44,15 @@ public class UserDestController {
     private ICityService cityService;
 
     @ApiOperation(value="新增/修改用户的目的地城市", notes="token需要解析")
-    @RequestMapping(value = "/api/user_dest/token/new_update", method = RequestMethod.POST)
-    public BaseResult<UserDest> city_des_update_or_create(@RequestBody UserDest userDest) {
-        /*ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+    @RequestMapping(value = "/api/user_dest/token/update", method = RequestMethod.PUT)
+    public BaseResult<UserDest> city_des_update_or_create(@RequestBody String cityid) {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest request= servletRequestAttributes.getRequest();
-        Cookie[] cookies = request.getCookies();
-        String jwttoken = "";
-        for (Cookie cookie : cookies) {
-            switch(cookie.getName()){
-                case "token":
-                    jwttoken = cookie.getValue();
-                    break;
-                default:
-                    break;
-            }
-        }*/
-       // Claims claims=JwtHelper.verifyJwt(jwttoken);
-       // String userid = String.valueOf(claims.get("userid"));
-        String userid=userDest.getUserId();
-        String cityid=userDest.getCityId();
+        String jwttoken=request.getHeader("token");
+        Claims claims=JwtHelper.verifyJwt(jwttoken);
+        String userid = String.valueOf(claims.get("userid"));
+
+        System.out.println(cityid);
         QueryWrapper<City>cityQueryWrapper=new QueryWrapper<>();
         cityQueryWrapper.lambda().eq(City::getCityId,cityid);
         City city=cityService.getOne(cityQueryWrapper);
@@ -85,12 +75,6 @@ public class UserDestController {
             }
 
         }
-        /*HttpServletResponse response = servletRequestAttributes.getResponse();
-        Cookie cookie = new Cookie("cityid", cityid);
-        cookie.setMaxAge(3600);
-        cookie.setDomain("localhost");
-        cookie.setPath("/");
-        response.addCookie(cookie);*/
         BaseResult baseResult=new BaseResult();
         baseResult.setResult(userDest_new);
         baseResult.setStatus("200");
@@ -101,22 +85,6 @@ public class UserDestController {
     @ApiOperation(value="查询用户的目的地城市", notes="token需要解析")
     @RequestMapping(value = "/api/user_dest/token", method = RequestMethod.POST)
     public BaseResult<UserDest> city_des_sel(@RequestBody String token) {
-       /* ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request= servletRequestAttributes.getRequest();
-        Cookie[] cookies = request.getCookies();
-        String jwttoken = "";
-        for (Cookie cookie : cookies) {
-            switch(cookie.getName()){
-                case "token":
-                    jwttoken = cookie.getValue();
-                    break;
-                default:
-                    break;
-            }
-        }
-        Claims claims=JwtHelper.verifyJwt(jwttoken);
-        String userid = String.valueOf(claims.get("userid"));*/
-
         Claims claims=JwtHelper.verifyJwt(token);
         String userid = String.valueOf(claims.get("userid"));
         QueryWrapper<UserDest>userDestQueryWrapper=new QueryWrapper<>();
@@ -133,14 +101,6 @@ public class UserDestController {
             baseResult.setStatus("400");
             baseResult.setMessage("查询失败");
         }
-        //把城市信息存cookie
-        /*HttpServletResponse response = servletRequestAttributes.getResponse();
-        Cookie cookie = new Cookie("cityid", userDest.getCityId());
-        cookie.setMaxAge(3600);
-        cookie.setDomain("localhost");
-        cookie.setPath("/");
-        response.addCookie(cookie);*/
-
         return baseResult;
     }
 

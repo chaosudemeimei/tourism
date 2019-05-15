@@ -7,13 +7,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.juzheng.smart.tourism.entity.City;
 import com.juzheng.smart.tourism.entity.CityBuy;
+import com.juzheng.smart.tourism.entity.UserDest;
+import com.juzheng.smart.tourism.jwt.JwtHelper;
 import com.juzheng.smart.tourism.mapper.CityMapper;
 import com.juzheng.smart.tourism.result.BaseResult;
+import com.juzheng.smart.tourism.result.CityResult;
 import com.juzheng.smart.tourism.result.WeatherHoursResult;
 import com.juzheng.smart.tourism.result.WeatherResult;
 import com.juzheng.smart.tourism.service.ICityService;
-import com.juzheng.smart.tourism.util.HotCity;
 import com.juzheng.smart.tourism.util.HttpUtils;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -48,17 +51,44 @@ public class CityController {
     private CityMapper cityMapper;
     @Autowired
     private ICityService cityService;
-    @ApiOperation(value="返回热门城市列表", notes="token需要解析")
+    @ApiOperation(value="返回城市列表", notes="返回自定义的类型")
     @RequestMapping(value = "/api/city/token", method = RequestMethod.GET)
-    public List<City> city_des_sel() {
-        List<City>list=new ArrayList<>();
-        for(HotCity hotCity : HotCity .values()){
-            QueryWrapper<City>cityQueryWrapper=new QueryWrapper<>();
-            cityQueryWrapper.lambda().eq(City::getName,hotCity.getCity_name());
-            list.add(cityService.getOne(cityQueryWrapper));
+    public String city_des_sel() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request= servletRequestAttributes.getRequest();
+        String jwttoken=request.getHeader("token");
+        Claims claims=JwtHelper.verifyJwt(jwttoken);
+        String userid = String.valueOf(claims.get("userid"));
+        UserDest userDest=new UserDest();
+        QueryWrapper<UserDest>userDestQueryWrapper=new QueryWrapper<>();
+        userDestQueryWrapper.lambda()
+                .eq(UserDest::getUserId,userid);
+        boolean isSetCity=false;
+        String cityid=null;
+        if(userDest.selectOne(userDestQueryWrapper)==null){
+            isSetCity=false;
         }
-
-        return list;
+        else{
+            cityid=userDest.selectOne(userDestQueryWrapper).getCityId();
+            isSetCity=true;
+        }
+        List<City> cities = cityService.list();
+        ArrayList<CityResult>cityResults=new ArrayList<>();
+        for(int i=0;i<cities.size();i++){
+            CityResult cityResult = new CityResult();
+            cityResult.setName(cities.get(i).getName());
+            cityResult.setValue(cities.get(i).getCityId());
+            int checked=0;
+            if(isSetCity==true&&cityid!=null){
+                if(cityid.equals(cities.get(i).getCityId())){
+                    checked=1;
+                }
+            }
+            cityResult.setChecked(checked);
+            cityResults.add(cityResult);
+        }
+        String json = JSON.toJSONString(cityResults);
+        return  json; //返回json字符串不然前端无法解析
     }
 
     @ApiOperation(value="根据cityid返回城市名称", notes="返回Stirng")
@@ -70,22 +100,10 @@ public class CityController {
         String cityName=city.getName();
         return cityName;
     }
+
     @ApiOperation(value="根据城市id返回天气", notes="需要进一步解析json")
     @RequestMapping(value = "/api/city/weather/{cityid}", method = RequestMethod.GET)
     public String cityweather(@PathVariable("cityid") String cityid) {
-        /*ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request= servletRequestAttributes.getRequest();
-        Cookie[] cookies = request.getCookies();
-        String cityid = "";
-        for (Cookie cookie : cookies) {
-            switch(cookie.getName()){
-                case "cityid":
-                    cityid = cookie.getValue();
-                    break;
-                default:
-                    break;
-            }
-        }*/
         if(cityid!=null) {
             QueryWrapper<City> cityQueryWrapper = new QueryWrapper<>();
             cityQueryWrapper.lambda().eq(City::getCityId, cityid);
@@ -101,10 +119,10 @@ public class CityController {
             headers.put("Authorization", "APPCODE " + appcode);
             Map<String, String> querys = new HashMap<String, String>();
             querys.put("area", cityname);
-            //querys.put("areaid", "101230506");
+           // querys.put("areaid", cityid);
             try {
                 HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
-                System.out.println(response.toString());
+               // System.out.println(response.toString());
                 //获取response的body
                 String s = EntityUtils.toString(response.getEntity());
                 Map map = (Map) JSONArray.parse(s);
@@ -113,8 +131,8 @@ public class CityController {
                 WeatherResult weatherResult = JSON.parseObject(jsonString, WeatherResult.class);
                 List<WeatherHoursResult> weatherHoursResult = weatherResult.getHourList();
                 String wea = weatherHoursResult.get(0).getWeather() + ",";
-                String tem = weatherHoursResult.get(0).getTemperature() + "度，";
-                String win_d = weatherHoursResult.get(0).getWind_direction() + ",";
+                String tem = weatherHoursResult.get(0).getTemperature() + "°C";
+                String win_d = weatherHoursResult.get(0).getWind_direction() + "";
                 String win_p = weatherHoursResult.get(0).getWind_power();
                 String weather = wea + tem + win_d + win_p;
                 return weather;

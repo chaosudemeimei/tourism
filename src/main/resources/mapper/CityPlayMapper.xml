@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.juzheng.smart.tourism.mapper.CityPlayMapper" >
-  <resultMap id="BaseResultMap" type="com.juzheng.smart.tourism.entity.CityPlay" >
-    <result column="id" property="id" jdbcType="INTEGER" />
-    <result column="play_id" property="playId" jdbcType="VARCHAR" />
-    <result column="play_name" property="playName" jdbcType="VARCHAR" />
-    <result column="play_address" property="playAddress" jdbcType="VARCHAR" />
-    <result column="play_price" property="playPrice" jdbcType="DECIMAL" />
-    <result column="play_keywords" property="playKeywords" jdbcType="VARCHAR" />
-    <result column="city_id" property="cityId" jdbcType="VARCHAR" />
-  </resultMap>
+
 
 </mapper>
