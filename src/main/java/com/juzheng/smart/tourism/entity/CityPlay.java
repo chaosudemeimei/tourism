@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,7 +22,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-//@Accessors(chain = true)
 public class CityPlay extends Model<CityPlay> {
 
     private static final long serialVersionUID = 1L;
@@ -29,17 +31,37 @@ public class CityPlay extends Model<CityPlay> {
 
     private String playId;
 
+    private String cityId;
+
     private String playName;
 
     private String playAddress;
 
-    private BigDecimal playPrice;
+    private Integer playLevel;
 
-    private String playKeywords;
+    private String playPrice;
 
-    private String playImg;
+    private String playTime;
 
-    private String cityId;
+    private String playImg1;
+
+    private String playImg2;
+
+    private String playImg3;
+
+    private String playImg4;
+
+    private String playImg5;
+
+    private Integer wantToGoCount;
+
+    private Integer havaBeenToCount;
+
+    private String playHighlight;
+
+    private String playIntroduction;
+
+    private String playSpecialnote;
 
 
     @Override

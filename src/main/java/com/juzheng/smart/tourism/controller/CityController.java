@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.juzheng.smart.tourism.entity.City;
-import com.juzheng.smart.tourism.entity.CityBuy;
 import com.juzheng.smart.tourism.entity.UserDest;
 import com.juzheng.smart.tourism.jwt.JwtHelper;
 import com.juzheng.smart.tourism.mapper.CityMapper;

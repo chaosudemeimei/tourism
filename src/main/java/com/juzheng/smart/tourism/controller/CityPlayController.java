@@ -2,13 +2,9 @@ package com.juzheng.smart.tourism.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.juzheng.smart.tourism.entity.CityBuy;
-import com.juzheng.smart.tourism.entity.CityEat;
 import com.juzheng.smart.tourism.entity.CityPlay;
-import com.juzheng.smart.tourism.mapper.CityEatMapper;
 import com.juzheng.smart.tourism.mapper.CityPlayMapper;
 import com.juzheng.smart.tourism.result.BaseResult;
-import com.juzheng.smart.tourism.service.ICityEatService;
 import com.juzheng.smart.tourism.service.ICityPlayService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,23 +38,9 @@ public class CityPlayController {
 
     @ApiOperation(value="根据city_id获得city_play", notes="token需要解析")
     @RequestMapping(value = "/api/city_play/{cityid}", method = RequestMethod.GET)
-    public BaseResult<List<CityBuy>> get_Citybuy_by_Cityid(@PathVariable("cityid") String cityid) {
-       /* ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request= servletRequestAttributes.getRequest();
-        Cookie[] cookies = request.getCookies();
-        String cityid = "";
-        for (Cookie cookie : cookies) {
-            switch(cookie.getName()){
-                case "cityid":
-                    cityid = cookie.getValue();
-                    break;
-                default:
-                    break;
-            }
-        }*/
+    public BaseResult<List<CityPlay>> get_Citybuy_by_Cityid(@PathVariable("cityid") String cityid) {
         QueryWrapper<CityPlay> cityPlayQueryWrapper=new QueryWrapper<>();
         cityPlayQueryWrapper.lambda().eq(CityPlay::getCityId,cityid);
-        // CityBuy cityBuy=cityBuyService.getOne(cityBuyQueryWrapper);
         List<CityPlay> cityPlays=cityPlayService.list(cityPlayQueryWrapper);
         BaseResult baseResult=new BaseResult();
         if (cityPlays!=null){

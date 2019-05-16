@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,13 +22,14 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-//@Accessors(chain = true)
 public class NotesInfo extends Model<NotesInfo> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    private String noteId;
 
     private String userId;
 
@@ -35,7 +39,9 @@ public class NotesInfo extends Model<NotesInfo> {
 
     private String content;
 
-    private LocalDateTime creatime;
+    private String creatime;
+
+    private Integer cityScore;
 
 
     @Override
