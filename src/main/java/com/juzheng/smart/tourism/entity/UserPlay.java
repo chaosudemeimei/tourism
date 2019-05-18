@@ -3,11 +3,10 @@ package com.juzheng.smart.tourism.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.models.auth.In;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.io.Serializable;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -15,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author juzheng
- * @since 2019-04-26
+ * @since 2019-05-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

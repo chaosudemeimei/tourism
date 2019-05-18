@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.juzheng.smart.tourism.entity.CityPlay;
 import com.juzheng.smart.tourism.entity.UserInfo;
+import com.juzheng.smart.tourism.entity.UserPlay;
+import com.juzheng.smart.tourism.jwt.JwtHelper;
 import com.juzheng.smart.tourism.mapper.CityPlayMapper;
 import com.juzheng.smart.tourism.result.BaseResult;
 import com.juzheng.smart.tourism.service.ICityPlayService;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -92,29 +95,73 @@ public class CityPlayController {
         return  baseResult;
     }
 
-    @ApiOperation(value="根据token中的userid和返回的go", notes="设置用户是否想去/去过某个景点")
-    @RequestMapping(value = "/api/city_play/{cityid}/play/{playid}", method = RequestMethod.GET)
-    public BaseResult<CityPlay> setUserPlay(@PathVariable("cityid") String cityid,@PathVariable("playid")String playid) {
-        QueryWrapper<CityPlay> cityPlayQueryWrapper=new QueryWrapper<>();
-        cityPlayQueryWrapper.lambda()
-                .eq(CityPlay::getCityId,cityid)
-                .eq(CityPlay::getPlayId,playid);
-        CityPlay cityPlay=cityPlayService.getOne(cityPlayQueryWrapper);
-        BaseResult baseResult=new BaseResult();
+    @ApiOperation(value="根据token中的userid和cityid,playid返回对应的go", notes="查询是否想去。去过某个景点")
+    @RequestMapping(value = "/api/user-play/token/{cityid}/play/{playid}", method = RequestMethod.GET)
+    public BaseResult<String> selUserPlay(@PathVariable("cityid") String cityid,@PathVariable("playid")String playid) {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request= servletRequestAttributes.getRequest();
+        String jwttoken=request.getHeader("token");
+        Claims claims=JwtHelper.verifyJwt(jwttoken);
+        String userid = String.valueOf(claims.get("userid"));
 
-        if (cityPlay!=null){
-            baseResult.setResult(cityPlay);
-            baseResult.setStatus("200");
-            baseResult.setMessage("查询成功");
+
+        //此处尝试活动模式：
+        QueryWrapper<UserPlay>queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserPlay::getCityId,cityid)
+                             .eq(UserPlay::getUserId,userid)
+                             .eq(UserPlay::getPlayId,playid);
+        UserPlay userPlay=new UserPlay();
+        if(userPlay.selectCount(queryWrapper)==0){
+            userPlay.setGo(Integer.valueOf("0"));
+            userPlay.setCityId(cityid);
+            userPlay.setPlayId(playid);
+            userPlay.setUserId(userid);
+            userPlay.insert();
         }
         else {
-            baseResult.setResult(null);
-            baseResult.setStatus("400");
-            baseResult.setMessage("查询失败");
+           userPlay=userPlay.selectOne(queryWrapper);
         }
+
+        BaseResult<String> baseResult=new BaseResult<>();
+        baseResult.setResult(userPlay.getGo().toString());
+        baseResult.setStatus("200");
+        baseResult.setMessage("OK");
+
         return  baseResult;
     }
 
 
+    @ApiOperation(value="根据token中的userid和返回的go", notes="更新设置用户是否想去/去过某个景点")
+    @RequestMapping(value = "/api/user-play/token/{cityid}/play/{playid}/go/{go}", method = RequestMethod.PUT)
+    public BaseResult<UserPlay> setUserPlay(@PathVariable("cityid") String cityid,@PathVariable("playid")String playid,@PathVariable("go")String go) {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request= servletRequestAttributes.getRequest();
+        String jwttoken=request.getHeader("token");
+        Claims claims=JwtHelper.verifyJwt(jwttoken);
+        String userid = String.valueOf(claims.get("userid"));
+
+        QueryWrapper<UserPlay>queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserPlay::getCityId,cityid)
+                .eq(UserPlay::getUserId,userid)
+                .eq(UserPlay::getPlayId,playid);
+        UserPlay userPlay=new UserPlay();
+        if(userPlay.selectCount(queryWrapper)==0){
+            userPlay.setGo(Integer.valueOf(go));
+            userPlay.setCityId(cityid);
+            userPlay.setPlayId(playid);
+            userPlay.setUserId(userid);
+            userPlay.insert();
+        }
+        else {
+            userPlay.setGo(Integer.valueOf(go));
+            userPlay.update(queryWrapper);
+        }
+        BaseResult<UserPlay> baseResult=new BaseResult<>();
+        baseResult.setResult(userPlay);
+        baseResult.setStatus("200");
+        baseResult.setMessage("OK");
+
+        return  baseResult;
+    }
 
 }
