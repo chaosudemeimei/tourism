@@ -32,9 +32,6 @@ public class UserKeywords extends Model<UserKeywords> {
 
     private String keywords;
 
-    private Integer frequency;
-
-
     @Override
     protected Serializable pkVal() {
         return this.id;

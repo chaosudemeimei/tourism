@@ -35,18 +35,17 @@ public class NotesPlanInfo extends Model<NotesPlanInfo> {
 
     private String cityId;
 
-    private LocalDateTime createtime;
+    private String creatime;
 
-    private LocalDateTime begintime;
+    private String begintime;
 
-    private LocalDateTime endtime;
+    private String endtime;
 
     private String population;
 
     private String budget;
 
-    private String notesKeywords;
-
+    private String content;
 
     @Override
     protected Serializable pkVal() {

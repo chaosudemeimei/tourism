@@ -1,12 +1,10 @@
 package com.juzheng.smart.tourism.controller;
 
 
-import com.juzheng.smart.tourism.entity.KeyWords;
-import com.juzheng.smart.tourism.entity.NotesInfo;
-import com.juzheng.smart.tourism.mapper.KeyWordsMapper;
-import com.juzheng.smart.tourism.mapper.NotesInfoMapper;
-import com.juzheng.smart.tourism.service.IKeyWordsService;
-import com.juzheng.smart.tourism.service.INotesInfoService;
+import com.juzheng.smart.tourism.entity.NotesRealInfo;
+import com.juzheng.smart.tourism.mapper.NotesPlanInfoMapper;
+import com.juzheng.smart.tourism.mapper.NotesRealInfoMapper;
+import com.juzheng.smart.tourism.service.INotesRealInfoService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,16 +23,15 @@ import java.util.List;
  * @since 2019-04-19
  */
 @RestController
-@RequestMapping("/notes-info")
-public class NotesInfoController {
+public class NotesRealInfoController {
     @Autowired
-    private NotesInfoMapper notesInfoMapper;
+    private NotesRealInfoMapper notesRealInfoMapper;
     @Autowired
-    private INotesInfoService notesInfoService;
+    private INotesRealInfoService notesRealInfoService;
     @ApiOperation(value="返回所有的游记", notes="list")
-    @RequestMapping(value = "/api/notes-info", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/notes-real-info", method = RequestMethod.GET)
     public List findAllKeynotesinfo() {
-        List<NotesInfo>notesInfos=notesInfoService.list();
+        List<NotesRealInfo>notesInfos=notesRealInfoService.list();
         return  notesInfos;
     }
 

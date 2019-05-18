@@ -3,7 +3,6 @@ package com.juzheng.smart.tourism.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +13,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author juzheng
@@ -22,31 +21,19 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class NotesInfo extends Model<NotesInfo> {
+public class KeyWordsType extends Model<KeyWordsType>{
+  private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+  private String typeId;
 
-    private String noteId;
+  private String typeName;
 
-    private String userId;
-
-    private String cityId;
-
-    private String title;
-
-    private String content;
-
-    private String creatime;
-
-    private Integer cityScore;
-
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
+  @Override
+  protected Serializable pkVal() {
+    return this.id;
+  }
 
 }

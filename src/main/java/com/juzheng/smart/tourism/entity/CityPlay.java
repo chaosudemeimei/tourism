@@ -37,7 +37,7 @@ public class CityPlay extends Model<CityPlay> {
 
     private String playAddress;
 
-    private Integer playLevel;
+    private String playLevel;
 
     private String playPrice;
 
@@ -52,10 +52,6 @@ public class CityPlay extends Model<CityPlay> {
     private String playImg4;
 
     private String playImg5;
-
-    private Integer wantToGoCount;
-
-    private Integer havaBeenToCount;
 
     private String playHighlight;
 

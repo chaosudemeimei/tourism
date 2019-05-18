@@ -21,18 +21,16 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserDest extends Model<UserDest> {
+public class NotesRealKeywords extends Model<NotesRealKeywords> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String userId;
+    private String noteId;
 
-    private String cityId;
-
-    private Integer go;
+    private String keywordId;
 
 
     @Override

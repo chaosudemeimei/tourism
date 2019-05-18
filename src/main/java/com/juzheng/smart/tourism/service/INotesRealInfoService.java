@@ -1,7 +1,8 @@
 package com.juzheng.smart.tourism.service;
 
-import com.juzheng.smart.tourism.entity.NotesKeywords;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.juzheng.smart.tourism.entity.NotesPlanInfo;
+import com.juzheng.smart.tourism.entity.NotesRealInfo;
 
 /**
  * <p>
@@ -11,6 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author juzheng
  * @since 2019-04-26
  */
-public interface INotesKeywordsService extends IService<NotesKeywords> {
+public interface INotesRealInfoService extends IService<NotesRealInfo> {
 
 }

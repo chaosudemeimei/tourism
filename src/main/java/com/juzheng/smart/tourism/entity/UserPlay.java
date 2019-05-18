@@ -1,15 +1,13 @@
 package com.juzheng.smart.tourism.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -21,7 +19,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserDest extends Model<UserDest> {
+public class UserPlay extends Model<UserPlay> {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,6 +29,8 @@ public class UserDest extends Model<UserDest> {
     private String userId;
 
     private String cityId;
+
+    private String playId;
 
     private Integer go;
 
