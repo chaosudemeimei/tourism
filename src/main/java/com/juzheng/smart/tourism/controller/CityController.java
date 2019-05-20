@@ -90,9 +90,31 @@ public class CityController {
         return  json; //返回json字符串不然前端无法解析
     }
 
+    @ApiOperation(value="返回城市列表2", notes="返回自定义的类型")
+    @RequestMapping(value = "/api/city", method = RequestMethod.GET)
+    public String city_des_sel2() {
+        List<City> cities = cityService.list();
+        ArrayList<CityResult>cityResults=new ArrayList<>();
+        for(int i=0;i<cities.size();i++){
+            CityResult cityResult = new CityResult();
+            cityResult.setName(cities.get(i).getName());
+            cityResult.setValue(cities.get(i).getCityId());
+            int checked=0;
+            cityResult.setChecked(checked);
+            cityResults.add(cityResult);
+        }
+        //return cityResults;
+        String json = JSON.toJSONString(cityResults);
+        return  json; //返回json字符串不然前端无法解析
+    }
+
     @ApiOperation(value="根据cityid返回城市名称", notes="返回Stirng")
     @RequestMapping(value = "/api/city/{cityid}", method = RequestMethod.GET)
     public String city_des_sel(@PathVariable("cityid") String cityid) {
+        //System.out.println(cityid);
+        if(cityid==null){
+            cityid="1";
+        }
         QueryWrapper<City>queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(City::getCityId,cityid);
         City city=cityService.getOne(queryWrapper);
@@ -103,6 +125,7 @@ public class CityController {
     @ApiOperation(value="根据城市id返回天气", notes="需要进一步解析json")
     @RequestMapping(value = "/api/city/weather/{cityid}", method = RequestMethod.GET)
     public String cityweather(@PathVariable("cityid") String cityid) {
+       // System.out.println(cityid);
         if(cityid!=null) {
             QueryWrapper<City> cityQueryWrapper = new QueryWrapper<>();
             cityQueryWrapper.lambda().eq(City::getCityId, cityid);

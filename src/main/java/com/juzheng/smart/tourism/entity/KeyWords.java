@@ -33,8 +33,6 @@ public class KeyWords extends Model<KeyWords> {
 
     private String content;
 
-    private String type;
-
     @Override
     protected Serializable pkVal() {
         return this.id;

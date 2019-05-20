@@ -52,34 +52,46 @@ public class UserDestController {
         Claims claims=JwtHelper.verifyJwt(jwttoken);
         String userid = String.valueOf(claims.get("userid"));
 
-        System.out.println(cityid);
-        QueryWrapper<City>cityQueryWrapper=new QueryWrapper<>();
-        cityQueryWrapper.lambda().eq(City::getCityId,cityid);
-        City city=cityService.getOne(cityQueryWrapper);
-        UserDest userDest_new=new UserDest();
-        if (city!=null&&userid!=null){
-            userDest_new.setUserId(userid);
-            userDest_new.setCityId(cityid);
-
-            QueryWrapper<UserDest> queryWrapper=new QueryWrapper<>();
-            queryWrapper.lambda().eq(UserDest::getUserId,userid);
-            UserDest userDest_table=userDestService.getOne(queryWrapper);
-
-            if (userDest_table!=null){
-                int user_dest_id=userDest_table.getId();
-                userDest_new.setId(user_dest_id);
-                userDestService.saveOrUpdate(userDest_new);
-            }
-            else{
-                userDestService.saveOrUpdate(userDest_new);
-            }
-
+        //System.out.println(cityid);
+        if(cityid==null){
+            BaseResult baseResult = new BaseResult();
+            UserDest userDest=new UserDest();
+            userDest.setCityId("1");
+            userDest.setUserId(userid);
+            userDest.setGo(0);
+            baseResult.setResult(userDest);
+            baseResult.setStatus("200");
+            baseResult.setMessage("success");
+            return baseResult;
         }
-        BaseResult baseResult=new BaseResult();
-        baseResult.setResult(userDest_new);
-        baseResult.setStatus("200");
-        baseResult.setMessage("success");
-        return baseResult;
+        else {
+            QueryWrapper<City> cityQueryWrapper = new QueryWrapper<>();
+            cityQueryWrapper.lambda().eq(City::getCityId, cityid);
+            City city = cityService.getOne(cityQueryWrapper);
+            UserDest userDest_new = new UserDest();
+            if (city != null && userid != null) {
+                userDest_new.setUserId(userid);
+                userDest_new.setCityId(cityid);
+
+                QueryWrapper<UserDest> queryWrapper = new QueryWrapper<>();
+                queryWrapper.lambda().eq(UserDest::getUserId, userid);
+                UserDest userDest_table = userDestService.getOne(queryWrapper);
+
+                if (userDest_table != null) {
+                    int user_dest_id = userDest_table.getId();
+                    userDest_new.setId(user_dest_id);
+                    userDestService.saveOrUpdate(userDest_new);
+                } else {
+                    userDestService.saveOrUpdate(userDest_new);
+                }
+
+            }
+            BaseResult baseResult = new BaseResult();
+            baseResult.setResult(userDest_new);
+            baseResult.setStatus("200");
+            baseResult.setMessage("success");
+            return baseResult;
+        }
     }
 
     @ApiOperation(value="查询用户的目的地城市", notes="token需要解析")

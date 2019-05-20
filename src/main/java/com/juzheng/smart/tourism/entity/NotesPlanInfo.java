@@ -35,8 +35,6 @@ public class NotesPlanInfo extends Model<NotesPlanInfo> {
 
     private String cityId;
 
-    private String creatime;
-
     private String begintime;
 
     private String endtime;

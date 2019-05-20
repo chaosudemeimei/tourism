@@ -21,9 +21,9 @@ public class CityPlayComment extends Model<CityPlayComment> {
 
   private String playId;
 
-  private String creatime;
+  private String userId;
 
-  private String playtime;
+  private String creatime;
 
   private String content;
 
