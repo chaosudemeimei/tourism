@@ -109,6 +109,7 @@ public class UserDestController {
             baseResult.setMessage("查询成功");
         }
         else {
+            userDest.setCityId("1");
             baseResult.setResult(userDest);
             baseResult.setStatus("400");
             baseResult.setMessage("查询失败");

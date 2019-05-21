@@ -77,28 +77,48 @@ public class CityPlayController {
         return  baseResult;
     }
 
-    @ApiOperation(value="根据play_id获得play信息", notes="")
+    @ApiOperation(value="根据play_id+cityid获得play信息", notes="")
     @RequestMapping(value = "/api/city_play/{cityid}/play/{playid}", method = RequestMethod.GET)
     public BaseResult<CityPlay> getCityplay(@PathVariable("cityid") String cityid,@PathVariable("playid")String playid) {
-        QueryWrapper<CityPlay> cityPlayQueryWrapper=new QueryWrapper<>();
-        cityPlayQueryWrapper.lambda()
-                .eq(CityPlay::getCityId,cityid)
-                .eq(CityPlay::getPlayId,playid);
-        CityPlay cityPlay=cityPlayService.getOne(cityPlayQueryWrapper);
-        BaseResult baseResult=new BaseResult();
+            QueryWrapper<CityPlay> cityPlayQueryWrapper = new QueryWrapper<>();
+            cityPlayQueryWrapper.lambda()
+                    .eq(CityPlay::getCityId, cityid)
+                    .eq(CityPlay::getPlayId, playid);
+            CityPlay cityPlay = cityPlayService.getOne(cityPlayQueryWrapper);
+            BaseResult baseResult = new BaseResult();
+            if (cityPlay != null) {
+                baseResult.setResult(cityPlay);
+                baseResult.setStatus("200");
+                baseResult.setMessage("查询成功");
+            } else {
+                baseResult.setResult(null);
+                baseResult.setStatus("400");
+                baseResult.setMessage("查询失败");
+            }
+            return baseResult;
 
-        if (cityPlay!=null){
+    }
+
+    @ApiOperation(value="根据play_id获得play信息", notes="")
+    @RequestMapping(value = "/api/city_play/{playid}", method = RequestMethod.GET)
+    public BaseResult<CityPlay> getCityplay2(@PathVariable("playid") String playid) {
+        QueryWrapper<CityPlay> cityPlayQueryWrapper = new QueryWrapper<>();
+        cityPlayQueryWrapper.lambda().eq(CityPlay::getPlayId, playid);
+        CityPlay cityPlay = cityPlayService.getOne(cityPlayQueryWrapper);
+        BaseResult baseResult = new BaseResult();
+        if (cityPlay != null) {
             baseResult.setResult(cityPlay);
             baseResult.setStatus("200");
             baseResult.setMessage("查询成功");
-        }
-        else {
+        } else {
             baseResult.setResult(null);
             baseResult.setStatus("400");
             baseResult.setMessage("查询失败");
         }
-        return  baseResult;
+        return baseResult;
+
     }
+
 
     @ApiOperation(value="根据token中的userid和cityid,playid返回对应的go", notes="查询是否想去。去过某个景点")
     @RequestMapping(value = "/api/user-play/token/{cityid}/play/{playid}", method = RequestMethod.GET)

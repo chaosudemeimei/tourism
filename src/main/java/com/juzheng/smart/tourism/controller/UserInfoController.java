@@ -177,6 +177,7 @@ public class UserInfoController {
             cookie.setPath("/");
             response.addCookie(cookie);
             loginResult.setResult(jwtToken);
+            System.out.println(jwtToken);
         }
             else
         {

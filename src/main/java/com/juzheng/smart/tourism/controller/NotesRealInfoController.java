@@ -65,12 +65,13 @@ public class NotesRealInfoController {
         queryWrapper.lambda().eq(NotesRealInfo::getUserId,userid);
         List<NotesRealInfo>notesRealInfoArrayList=notesRealInfoService.list(queryWrapper);
         List<NotesRealResult>notesRealResultList=new ArrayList<>();
+        String cityname="";
         for(int i=0;i<notesRealInfoArrayList.size();i++) {
             QueryWrapper<City> queryWrapper1 = new QueryWrapper<>();
             queryWrapper1.lambda().eq(City::getCityId,notesRealInfoArrayList.get(i).getCityId());
             City city=new City();
-            String cityname=city.selectOne(queryWrapper1).getName();
-
+            if(notesRealInfoArrayList.get(i).getCityId()!=null)
+            cityname= city.selectOne(queryWrapper1).getName();
             NotesRealResult notesRealResult=new NotesRealResult();
             notesRealResult.setNoteId(notesRealInfoArrayList.get(i).getNoteId());
             notesRealResult.setUserId(notesRealInfoArrayList.get(i).getUserId());

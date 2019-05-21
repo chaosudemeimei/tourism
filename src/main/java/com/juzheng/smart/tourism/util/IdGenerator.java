@@ -12,7 +12,7 @@ public class IdGenerator {
      */
     public static String createUserCode(){
         String date = DateUtils.formatDate(new Date(), new SimpleDateFormat("yyyyMMdd"));
-        String randomKey = UUID.randomUUID().toString().substring(0,5);
+        String randomKey = String.valueOf(Integer.parseInt(UUID.randomUUID().toString().substring(0,3),16));
         return date+randomKey;
     }
 }
