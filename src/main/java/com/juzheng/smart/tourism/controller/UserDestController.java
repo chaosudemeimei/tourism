@@ -58,7 +58,7 @@ public class UserDestController {
             UserDest userDest=new UserDest();
             userDest.setCityId("1");
             userDest.setUserId(userid);
-            userDest.setGo(0);
+            //userDest.setGo(0);
             baseResult.setResult(userDest);
             baseResult.setStatus("200");
             baseResult.setMessage("success");

@@ -32,7 +32,6 @@ public class UserDest extends Model<UserDest> {
 
     private String cityId;
 
-    private Integer go;
 
 
     @Override

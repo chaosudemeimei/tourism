@@ -49,14 +49,8 @@ public class NotesPlanInfoController {
         QueryWrapper<NotesPlanInfo>queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(NotesPlanInfo::getUserId,userid);
         NotesPlanInfo notesPlanInfo = new NotesPlanInfo();
-        if(iNotesPlanInfoService.getOne(queryWrapper)==null){
-            notesPlanInfo.setUserId(userid);
-            notesPlanInfo.setPlanId(IdGenerator.createUserCode()+userid);
-            notesPlanInfo.insert();
-        }
-        else{
-            notesPlanInfo=iNotesPlanInfoService.getOne(queryWrapper);
-        }
+
+        notesPlanInfo=iNotesPlanInfoService.getOne(queryWrapper);
         BaseResult baseResult=new BaseResult<>();
         baseResult.setResult(notesPlanInfo);
         baseResult.setStatus("200");

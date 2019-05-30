@@ -4,6 +4,8 @@ package com.juzheng.smart.tourism.controller;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
+import com.juzheng.smart.tourism.entity.NotesPlanInfo;
+import com.juzheng.smart.tourism.entity.UserDest;
 import com.juzheng.smart.tourism.entity.UserInfo;
 import com.juzheng.smart.tourism.jwt.JwtHelper;
 import com.juzheng.smart.tourism.mapper.UserInfoMapper;
@@ -169,13 +171,13 @@ public class UserInfoController {
                      jwtToken=JwtHelper.generateToken(userInfo.getUserId());
                 }
             }
-            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-            HttpServletResponse response = servletRequestAttributes.getResponse();
-            Cookie cookie = new Cookie("token", jwtToken);
-            cookie.setMaxAge(3600);
-            cookie.setDomain("localhost");
-            cookie.setPath("/");
-            response.addCookie(cookie);
+//            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+//            HttpServletResponse response = servletRequestAttributes.getResponse();
+//            Cookie cookie = new Cookie("token", jwtToken);
+//            cookie.setMaxAge(3600);
+//            cookie.setDomain("localhost");
+//            cookie.setPath("/");
+//            response.addCookie(cookie);
             loginResult.setResult(jwtToken);
             System.out.println(jwtToken);
         }
@@ -211,13 +213,13 @@ public class UserInfoController {
             UserInfo userInfo=userInfoService.getOne(queryWrapper);
             if(userInfo!=null){//跟数据库比对若存在该用户
                 String jwtToken = JwtHelper.generateToken(userInfo.getUserId());
-                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-                HttpServletResponse response = servletRequestAttributes.getResponse();
-                Cookie cookie = new Cookie("token", jwtToken);
-                cookie.setMaxAge(3600);
-                cookie.setDomain("localhost");
-                cookie.setPath("/");
-                response.addCookie(cookie);
+//                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+//                HttpServletResponse response = servletRequestAttributes.getResponse();
+//                Cookie cookie = new Cookie("token", jwtToken);
+//                cookie.setMaxAge(3600);
+//                cookie.setDomain("localhost");
+//                cookie.setPath("/");
+//                response.addCookie(cookie);
                 // System.out.println(response.getHeaders("set-cookie"));
                 loginResult.setResult(jwtToken);
                 loginResult.setMessage(userInfo.getUserId());
@@ -226,19 +228,30 @@ public class UserInfoController {
             else {//若不存在自动注册
                 UserInfo userInfo2=new UserInfo();
                 userInfo2.setRegisterTime(LocalDateTime.now());
-                userInfo2.setUserId(IdGenerator.createUserCode());
+                String userid=IdGenerator.createUserCode();
+                userInfo2.setUserId(userid);
                 userInfo2.setPhoneNumber(user_data1);
                 userInfoService.save(userInfo2);//存入
                 String jwtToken = JwtHelper.generateToken(userInfo2.getUserId());
 
-                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-                HttpServletResponse response = servletRequestAttributes.getResponse();
-                Cookie cookie = new Cookie("token", jwtToken);
-                cookie.setMaxAge(3600);
-                cookie.setDomain("localhost");
-                cookie.setPath("/");
-                response.addCookie(cookie);
-
+//                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+//                HttpServletResponse response = servletRequestAttributes.getResponse();
+//                Cookie cookie = new Cookie("token", jwtToken);
+//                cookie.setMaxAge(3600);
+//                cookie.setDomain("localhost");
+//                cookie.setPath("/");
+//                response.addCookie(cookie);
+                //此处默认城市南京
+                UserDest userDest=new UserDest();
+                userDest.setCityId("1");
+                userDest.setUserId(userid);
+               // userDest.setGo(0);
+                userDest.insert();
+                NotesPlanInfo notesPlanInfo=new NotesPlanInfo();
+                notesPlanInfo.setUserId(userid);
+                notesPlanInfo.setPlanId(IdGenerator.createUserCode()+userid);
+                notesPlanInfo.setCityId("1");
+                notesPlanInfo.insert();
                 loginResult.setResult(jwtToken);
                 loginResult.setMessage("验证码正确，自动注册，登录成功！");
                 loginResult.setStatus("201");
@@ -262,16 +275,28 @@ public class UserInfoController {
            queryWrapper.eq("username",userInfo.getUsername());
            if(userInfoService.getOne(queryWrapper)==null) {//不存在相同用户名
                userInfo.setRegisterTime(LocalDateTime.now());
-               userInfo.setUserId(IdGenerator.createUserCode());
+               String userid=IdGenerator.createUserCode();
+               userInfo.setUserId(userid);
                userInfoService.save(userInfo);//存入
                String  jwtToken=JwtHelper.generateToken(userInfo.getUserId());
-               ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-               HttpServletResponse response = servletRequestAttributes.getResponse();
-               Cookie cookie = new Cookie("token", jwtToken);
-               cookie.setMaxAge(3600);
-               cookie.setDomain("localhost");
-               cookie.setPath("/");
-               response.addCookie(cookie);
+//               ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+//               HttpServletResponse response = servletRequestAttributes.getResponse();
+//               Cookie cookie = new Cookie("token", jwtToken);
+//               cookie.setMaxAge(3600);
+//               cookie.setDomain("localhost");
+//               cookie.setPath("/");
+//               response.addCookie(cookie);
+               //此处默认城市南京
+               UserDest userDest=new UserDest();
+               userDest.setCityId("1");
+               userDest.setUserId(userid);
+              // userDest.setGo(0);
+               userDest.insert();
+               NotesPlanInfo notesPlanInfo=new NotesPlanInfo();
+               notesPlanInfo.setUserId(userid);
+               notesPlanInfo.setPlanId(IdGenerator.createUserCode()+userid);
+               notesPlanInfo.setCityId("1");
+               notesPlanInfo.insert();
                baseResult.setResult(jwtToken);
                baseResult.setMessage("注册成功");
                baseResult.setStatus("200");
@@ -318,13 +343,24 @@ public class UserInfoController {
                 userInfoService.save(userInfo);
 
                 String  jwtToken=JwtHelper.generateToken(userid);
-                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-                HttpServletResponse response = servletRequestAttributes.getResponse();
-                Cookie cookie = new Cookie("token", jwtToken);
-                cookie.setMaxAge(3600);
-                cookie.setDomain("localhost");
-                cookie.setPath("/");
-                response.addCookie(cookie);
+//                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+//                HttpServletResponse response = servletRequestAttributes.getResponse();
+//                Cookie cookie = new Cookie("token", jwtToken);
+//                cookie.setMaxAge(3600);
+//                cookie.setDomain("localhost");
+//                cookie.setPath("/");
+//                response.addCookie(cookie);
+                //此处默认城市南京
+                UserDest userDest=new UserDest();
+                userDest.setCityId("1");
+                userDest.setUserId(userid);
+               // userDest.setGo(0);
+                userDest.insert();
+                NotesPlanInfo notesPlanInfo=new NotesPlanInfo();
+                notesPlanInfo.setUserId(userid);
+                notesPlanInfo.setPlanId(IdGenerator.createUserCode()+userid);
+                notesPlanInfo.setCityId("1");
+                notesPlanInfo.insert();
                 baseResult.setResult(jwtToken);
                 baseResult.setStatus("200");//注册成功返回200
                 baseResult.setMessage("注册成功");
@@ -358,13 +394,13 @@ public class UserInfoController {
         BaseResult baseResult=new BaseResult();
         if(userInfo!=null){
             baseResult.setResult(userInfo);
-            baseResult.setStatus("200");//注册成功返回200
+            baseResult.setStatus("200");
             baseResult.setMessage("查询成功");
             return baseResult;
         }
         else {
             baseResult.setResult(userInfo);
-            baseResult.setStatus("400");//注册成功返回200
+            baseResult.setStatus("400");
             baseResult.setMessage("查询失败");
             return baseResult;
         }

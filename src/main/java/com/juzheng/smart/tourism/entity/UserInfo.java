@@ -47,8 +47,6 @@ public class UserInfo extends Model<UserInfo> {
 
     private String realname;
 
-    private String headUrl;
-
     private String remark;
 
 
